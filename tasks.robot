@@ -4,6 +4,7 @@ Library         RPA.Browser.Selenium
 Library         RPA.HTTP
 Library         RPA.Excel.Files
 Library         RPA.PDF
+Library         RPA.Robocloud.Secrets
 
 *** Keywords ***
 Open the intranet website
@@ -11,8 +12,9 @@ Open the intranet website
 
 *** Keywords ***
 Log In
-    Input Text    username    maria  
-    Input Password    password    thoushallnotpass
+    ${secret}=    Get Secret    robotsparebin
+    Input Text    username    ${secret}[username]  
+    Input Password    password    ${secret}[password]
     Submit Form
     Wait Until Page Contains Element    id:sales-form
 
@@ -62,4 +64,3 @@ Open the intranet website, log in and insert the sales data for the week and exp
     Collect The Results
     Export The Table As A PDF
     [Teardown]    Log Out And Close The Browser
-    Sleep    300
